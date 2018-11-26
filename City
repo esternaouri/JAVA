@@ -1,0 +1,105 @@
+
+/**
+ * this class repreasent a city
+ *
+ * @author (ESTER NAOURI)
+ * @id 317768703
+ */
+public class City {
+
+	private static final long MIN_NUM_OF_RESIDENTS = 0;
+	private static final int MIN_NUM_OF_NEIGHBORHOODS = 1;
+	private String _cityName;
+	private Point _cityCenter;
+	private Point _centralStation;
+	private long _numOfResidents;
+	private int _noOfNeighborhoods;
+
+	public City(String name, int p1, int p2, int p3, int p4, long numofresidents, int numofneigh) {
+		_cityName = name;
+		_cityCenter = new Point(p1, p2);
+		_centralStation = new Point(p3, p4);
+		setNumOfResidents(numofresidents);
+		setNoOfNeighborhoods(numofneigh);
+
+	}
+
+	public City(City x) {
+		_cityName = x._cityName;
+		_cityCenter = new Point(x._cityCenter);
+		_centralStation = new Point(x._centralStation);
+		_numOfResidents = x._numOfResidents;
+		_noOfNeighborhoods = x._noOfNeighborhoods;
+
+	}
+
+	public String getCityName() {
+		return _cityName;
+	}
+
+	public Point getCityCenter() {
+		return new Point(_cityCenter);
+	}
+
+	public Point getCentralStation() {
+		return new Point(_centralStation);
+	}
+
+	public long getNumOfResidents() {
+		return _numOfResidents;
+	}
+
+	public int getNoOfNeighborhoods() {
+		return _noOfNeighborhoods;
+	}
+
+	public void setCityName(String cityName) {
+		_cityName = cityName;
+	}
+
+	public void setCityCenter(Point cityCenter) {
+		_cityCenter = new Point(cityCenter);
+	}
+
+	public void setCentralStation(Point centralStation) {
+		_centralStation = new Point(centralStation);
+	}
+
+	public void setNumOfResidents(long numOfResidents) {
+		if (numOfResidents >= MIN_NUM_OF_RESIDENTS)
+			_numOfResidents = numOfResidents;
+	}
+
+	public void setNoOfNeighborhoods(int noOfNeighborhoods) {
+		if (noOfNeighborhoods >= MIN_NUM_OF_NEIGHBORHOODS)
+			_noOfNeighborhoods = noOfNeighborhoods;
+	}
+
+	public String toString() {
+		return "City Name: " + _cityName + "\nCenter Center: " + _cityCenter.toString() + "\nCentral Station: "
+				+ _centralStation.toString() + "\nNumOfResidents: " + +this._numOfResidents + "\nNo Of Neighborhoods: "
+				+ _noOfNeighborhoods;
+	}
+
+	public boolean addResidents(long residentsUpdates) {
+		if (residentsUpdates + this._numOfResidents >= MIN_NUM_OF_RESIDENTS) {
+			setNumOfResidents(residentsUpdates + this._numOfResidents);
+			return true;
+		}
+
+		return false;
+	}
+
+	public void moveCentralStation(double deltaX, double deltaY) {
+		_centralStation.move(deltaX, deltaY);
+	}
+
+	 public double distanceBetweenCenterAndStation() {
+	return this._centralStation.distance(this._cityCenter);
+	}
+
+	 public City newCity(String newcityname, double dx, double dy) {
+		return new City(newcityname,(int)(_cityCenter.getX()+dx),(int)(_cityCenter.getY()+dy),(int)(_centralStation.getX()+dx),(int)(_centralStation.getY() +dy),MIN_NUM_OF_RESIDENTS,MIN_NUM_OF_NEIGHBORHOODS );
+	
+	}
+}
