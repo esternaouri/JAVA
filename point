@@ -1,0 +1,117 @@
+
+/**
+ * this class repreasent a point in the polar system way
+ *
+ * @author (ESTER NAOURI)
+ * @id 317768703
+ */
+
+public class Point {
+	private double _alpha;
+	private double _radius;
+
+	private final double RAD_2_DEG = (float) 180.0 / Math.PI;
+
+	/**
+	 * builder
+	 * @param x
+	 * @param y
+	 */
+	public Point(double x, double y) {
+		initMembers(x, y);
+	}
+
+	/**
+	 * intilize the x and y into polar alpha and radius
+	 * @param x
+	 * @param y
+	 */
+	private void initMembers(double x, double y) {
+		if (x == 0) {// 90 degrees
+			_alpha = 90;
+			_radius = y;
+		} else {
+			if (y == 0) {// 0 degrees
+				_alpha = 0;
+				_radius = x;
+			} else {
+				_alpha = roundNumber(Math.atan(y / x) / RAD_2_DEG);
+				_radius = roundNumber(x / Math.sin(_alpha));
+			}
+		}
+	}
+
+	public Point(Point other) {
+		_alpha = other._alpha;
+		_radius = other._radius;
+
+	}
+
+	public double getX() {
+		return roundNumber(Math.cos(_alpha * RAD_2_DEG) * _radius);
+	}
+
+	public double getY() {
+		return roundNumber(Math.sin(_alpha * RAD_2_DEG) * _radius);
+	}
+
+	private double roundNumber(double d) {
+		return Math.round(d * 10000) / (double) 10000;
+	}
+
+	public void setX(double num) {
+		initMembers(num, getY());
+	}
+
+	public void setY(double num) {
+		initMembers(getX(), num);
+	}
+
+	public String toString() {
+		return ("(" + roundNumber(this.getX()) + "," + roundNumber(this.getY()) + ")");
+	}
+
+	public boolean equals(Point other) {
+		if (other == null)
+			return false;
+		if ((this._radius == other._radius) && (this._alpha == other._alpha)) {
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * checking if this is above the given point
+	 * @param other the point to check if this is above it
+	 * @return true iff this is higher than other
+	 */
+	public boolean isAbove(Point other) {
+		if ((this.getY() > other.getY())) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isUnder(Point other) {
+		return other.isAbove(this);
+	}
+
+	public boolean isLeft(Point other) {
+		if ((this.getX() < other.getX())) {
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isRight(Point other) {
+		return other.isLeft(this);
+	}
+
+	public double distance(Point p) {
+		return Math.sqrt(Math.pow(this.getX() - p.getX(), 2) + Math.pow(this.getY() - p.getY(), 2));
+	}
+
+	public void move(double dx, double dy) {
+		initMembers(getX() + dx, getY() + dy);
+	}
+}
